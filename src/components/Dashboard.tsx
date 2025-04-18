@@ -168,11 +168,10 @@ export const Dashboard = () => {
                 <button
                   key={team.id}
                   onClick={() => setSelectedTeam(team.id)}
-                  className={`w-full text-left px-4 py-2 rounded-md ${
-                    selectedTeam === team.id
+                  className={`w-full text-left px-4 py-2 rounded-md ${selectedTeam === team.id
                       ? 'bg-indigo-100 text-indigo-700'
                       : 'hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   {team.name}
                 </button>
@@ -233,9 +232,9 @@ export const Dashboard = () => {
                           Paid by {expense.paid_by_username} on{' '}
                           {new Date(expense.created_at).toLocaleDateString()}
                         </p>
-                    <p className="text-sm text-gray-500">
-  Your share: ${expense.user_share != null ? `${expense.user_share}` : '0.00'}
-</p>
+                        <p className="text-sm text-gray-500">
+                          Your share: ${expense.user_share != null ? `${expense.user_share}` : '0.00'}
+                        </p>
 
                       </div>
                       <div className="flex items-center space-x-4">
@@ -243,15 +242,15 @@ export const Dashboard = () => {
                           {expense.amount}
                         </span>
                         {!expense.user_paid ? (
-                           <span className="flex items-center text-green-600">
-                           <Check className="h-4 w-4 mr-1" />
-                           {expense.paid_by_username}
-                         </span>
+                          <span className="flex items-center text-green-600">
+                            <Check className="h-4 w-4 mr-1" />
+                            {expense.paid_by_username}
+                          </span>
                         ) : (
                           <span className="flex items-center text-green-600">
                             <Check className="h-4 w-4 mr-1" />
                             Paid by You
-                                                      </span>
+                          </span>
                         )}
                       </div>
                     </div>

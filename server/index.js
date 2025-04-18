@@ -79,7 +79,7 @@ async function initDatabase() {
         FOREIGN KEY (user_id) REFERENCES users(id)
       )
     `);
-    
+
     console.log("Database tables initialized successfully");
   } catch (error) {
     console.error("Error initializing database:", error);
@@ -117,7 +117,7 @@ app.post('/api/register', async (req, res) => {
       'INSERT INTO users (username, password) VALUES (?, ?)',
       [username, hashedPassword]
     );
-    
+
     const token = jwt.sign({ id: result.insertId, username }, JWT_SECRET);
     res.json({ token });
   } catch (error) {
@@ -148,17 +148,17 @@ app.post('/api/teams', authenticateToken, async (req, res) => {
   const connection = await pool.getConnection();
   try {
     await connection.beginTransaction();
-    
+
     const [result] = await connection.query(
       'INSERT INTO teams (name, passcode, created_by) VALUES (?, ?, ?)',
       [name, passcode, req.user.id]
     );
-    
+
     await connection.query(
       'INSERT INTO team_members (team_id, user_id) VALUES (?, ?)',
       [result.insertId, req.user.id]
     );
-    
+
     await connection.commit();
     res.json({ id: result.insertId, name, passcode });
   } catch (error) {
@@ -176,7 +176,7 @@ app.post('/api/teams/join', authenticateToken, async (req, res) => {
       'SELECT * FROM teams WHERE id = ? AND passcode = ?',
       [teamId, passcode]
     );
-    
+
     if (!teams.length) {
       return res.status(404).json({ error: 'Team not found or invalid passcode' });
     }
@@ -185,7 +185,7 @@ app.post('/api/teams/join', authenticateToken, async (req, res) => {
       'INSERT INTO team_members (team_id, user_id) VALUES (?, ?)',
       [teamId, req.user.id]
     );
-    
+
     res.json({ message: 'Joined team successfully' });
   } catch (error) {
     res.status(400).json({ error: 'Already a member of this team' });
@@ -209,10 +209,10 @@ app.get('/api/teams/search', authenticateToken, async (req, res) => {
 app.post('/api/expenses', authenticateToken, async (req, res) => {
   const { teamId, amount, description } = req.body;
   const connection = await pool.getConnection();
-  
+
   try {
     await connection.beginTransaction();
-    
+
     const [expenseResult] = await connection.query(
       'INSERT INTO expenses (team_id, amount, description, paid_by) VALUES (?, ?, ?, ?)',
       [teamId, amount, description, req.user.id]
@@ -222,7 +222,7 @@ app.post('/api/expenses', authenticateToken, async (req, res) => {
       'SELECT COUNT(*) as count FROM team_members WHERE team_id = ?',
       [teamId]
     );
-    
+
     const memberCount = members[0].count;
     const splitAmount = amount / memberCount;
 
@@ -251,7 +251,7 @@ app.post('/api/expenses', authenticateToken, async (req, res) => {
 
 app.post('/api/expenses/:expenseId/pay', authenticateToken, async (req, res) => {
   const { expenseId } = req.params;
-  
+
   try {
     const [result] = await pool.query(
       `UPDATE payments 
@@ -259,11 +259,11 @@ app.post('/api/expenses/:expenseId/pay', authenticateToken, async (req, res) => 
        WHERE expense_id = ? AND user_id = ? AND paid = FALSE`,
       [expenseId, req.user.id]
     );
-    
+
     if (result.affectedRows === 0) {
       return res.status(400).json({ error: 'Payment not found or already paid' });
     }
-    
+
     res.json({ message: 'Payment successful' });
   } catch (error) {
     res.status(500).json({ error: 'Failed to process payment' });
