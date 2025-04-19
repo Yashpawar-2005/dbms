@@ -1,5 +1,4 @@
-import React,
-{ useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
@@ -32,8 +31,20 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 login-container">
-      <div className="max-w-md w-full space-y-6 p-8 login-box transition duration-300 transform hover:scale-[1.01]">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 login-container bg-indigo-900">
+      {/* Title */}
+      <h1
+        className="text-4xl mb-6 text-center"
+        style={{
+          color: 'white',
+          fontFamily: "'Playfair Display', serif",
+        }}
+      >
+        Shared Expense Tracker
+      </h1>
+
+      {/* Login Box */}
+      <div className="max-w-md w-full space-y-6 p-8 login-box bg-white rounded-xl shadow-xl transition duration-300 transform hover:scale-[1.01]">
         <div className="text-center">
           <LogIn className="mx-auto h-12 w-12 text-indigo-600" />
           <h2 className="mt-4 text-3xl font-bold text-gray-900">Welcome back</h2>
@@ -74,8 +85,8 @@ export const Login = () => {
               type="submit"
               disabled={loading}
               className={`w-full py-3 text-white font-medium rounded-xl transition ${loading
-                ? 'bg-indigo-400 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700'
+                  ? 'bg-indigo-400 cursor-not-allowed'
+                  : 'bg-indigo-600 hover:bg-indigo-700'
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
             >
               {loading ? 'Signing in...' : 'Sign in'}

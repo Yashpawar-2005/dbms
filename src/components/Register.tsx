@@ -31,8 +31,20 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 register-page">
-      <div className="max-w-md w-full space-y-6 register-box">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 register-page bg-indigo-900">
+      {/* Title */}
+      <h1
+        className="text-4xl mb-6 text-center"
+        style={{
+          color: 'white',
+          fontFamily: "'Playfair Display', serif",
+        }}
+      >
+        Shared Expense Tracker
+      </h1>
+
+      {/* Register Box */}
+      <div className="max-w-md w-full space-y-6 register-box bg-white p-8 rounded-xl shadow-xl transition duration-300 transform hover:scale-[1.01]">
         <div className="text-center">
           <UserPlus className="mx-auto h-12 w-12 text-indigo-600" />
           <h2 className="mt-4 text-3xl font-bold text-gray-900">Create your account</h2>
@@ -69,8 +81,8 @@ export const Register = () => {
               type="submit"
               disabled={loading}
               className={`w-full py-3 text-white font-medium rounded-xl transition ${loading
-                ? 'bg-indigo-400 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700'
+                  ? 'bg-indigo-400 cursor-not-allowed'
+                  : 'bg-indigo-600 hover:bg-indigo-700'
                 } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
             >
               {loading ? 'Signing up...' : 'Sign up'}
